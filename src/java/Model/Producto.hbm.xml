@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 25/10/2020 08:59:32 PM by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="Model.Producto" table="producto" catalog="guchi" optimistic-lock="version">
+        <id name="idProducto" type="java.lang.Integer">
+            <column name="idProducto" />
+            <generator class="identity" />
+        </id>
+        <property name="nombreProducto" type="string">
+            <column name="nombreProducto" length="45" />
+        </property>
+        <property name="existencia" type="java.lang.Integer">
+            <column name="existencia" />
+        </property>
+        <property name="precio" type="java.lang.Double">
+            <column name="precio" precision="22" scale="0" />
+        </property>
+        <set name="ventaproductos" table="ventaproducto" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="idProducto" />
+            </key>
+            <one-to-many class="Model.Ventaproducto" />
+        </set>
+    </class>
+</hibernate-mapping>

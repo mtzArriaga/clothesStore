@@ -1,0 +1,45 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 25/10/2020 08:59:32 PM by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="Model.Empleado" table="empleado" catalog="guchi" optimistic-lock="version">
+        <id name="idEmpleado" type="java.lang.Integer">
+            <column name="idEmpleado" />
+            <generator class="identity" />
+        </id>
+        <property name="nombreEmpleado" type="string">
+            <column name="nombreEmpleado" length="45" />
+        </property>
+        <property name="apellidoPaterno" type="string">
+            <column name="apellidoPaterno" length="45" />
+        </property>
+        <property name="apellidoMaterno" type="string">
+            <column name="apellidoMaterno" length="45" />
+        </property>
+        <property name="puesto" type="string">
+            <column name="puesto" length="25" />
+        </property>
+        <property name="salario" type="java.lang.Double">
+            <column name="salario" precision="22" scale="0" />
+        </property>
+        <property name="horaEntrada" type="time">
+            <column name="horaEntrada" length="8" />
+        </property>
+        <property name="horaSalida" type="time">
+            <column name="horaSalida" length="8" />
+        </property>
+        <property name="telefonoEmpleado" type="java.lang.Long">
+            <column name="telefonoEmpleado" />
+        </property>
+        <property name="emailEmpleado" type="string">
+            <column name="emailEmpleado" length="45" />
+        </property>
+        <set name="ventas" table="venta" inverse="true" lazy="true" fetch="select" >
+            <key>
+                <column name="idEmpleado" />
+            </key>
+            <one-to-many class="Model.Venta"  />
+        </set>
+    </class>
+</hibernate-mapping>

@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">    
+    <h:head>
+        <title>GUCHI© | Venta</title>
+        <h:outputStylesheet library="css" name="index.css" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    </h:head>
+    <h:body>
+        <div class="fondoventa" >
+        <h:form id="formInsertar">
+            <center>
+               <p:graphicImage value="/img/guchiventa.png" title="Venta" alt="image1 desc" height="100" width="300" />
+                <p:panelGrid columns="2">                    
+                 
+                     <p:outputLabel value="Fecha de la venta:"/>
+                     <p:calendar value="#{ventaBean.venta.fecha}" required="true" requiredMessage="Llenar todos los campos"/>                    
+                    <p:outputLabel for="timeS" value="Hora de la venta:" />
+                    <p:calendar id="timeS" value="#{ventaBean.venta.horaVenta}" pattern="HH:mm" timeOnly="true" required="true" requiredMessage="Llenar todos los campos"/>
+                    <p:outputLabel value="Monto total:"/>
+                    <p:inputText value="#{ventaBean.venta.montoTotal}" required="true" requiredMessage="Llenar todos los campos"/>                                        
+                    <p:outputLabel value="Empleado"/>
+                    <p:selectOneMenu value="#{ventaBean.id_Empleado}" required="true" requiredMessage="Llenar todos los campos">
+                        <f:selectItems value="#{empleadoBean.empleados}" var="fk2" itemLabel="#{fk2.nombreEmpleado}" itemValue="#{fk2.idEmpleado}" />
+                    </p:selectOneMenu>
+                    <p:outputLabel value="Cliente"/>
+                    <p:selectOneMenu value="#{ventaBean.id_Cliente}" required="true" requiredMessage="Llenar todos los campos">
+                        <f:selectItems value="#{clienteBean.clientes}" var="fk3" itemLabel="#{fk3.nombre}" itemValue="#{fk3.idCliente}" />
+                    </p:selectOneMenu>                                                      
+                </p:panelGrid>
+                
+                <p:panelGrid columns="1">
+                    <p:growl id="growl" life="2000" />
+                    <p:tabMenu activeIndex="#{param.i}">
+                        <p:menuitem value="Insertar" action="#{ventaBean.insertar()}" icon="pi pi-star" update=":formInsertar,:formTabla">
+                            <f:param name="i" value="0" />
+                        </p:menuitem>
+                        <p:menuitem value="Limpiar" outcome="Venta" icon="pi pi-search">
+                            <f:param name="i" value="1" />
+                        </p:menuitem>
+                        <p:menuitem value="Regresar" outcome="index" icon="pi pi-file">
+                            <f:param name="i" value="2" />
+                        </p:menuitem>                       
+                    </p:tabMenu>
+                    </p:panelGrid>
+               </center>
+                     </h:form>          
+               <h:form id="formTabla">
+                <center>
+                  <h3 style="margin-top:0">Venta</h3>                
+                  <p:dataTable id="tabla" var="vpd" value="#{ventaBean.ventas}"
+                         emptyMessage="No hay registros"
+                         paginator="true" rows="10" paginatorPosition="top"
+                         paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {RowsPerPageDropdown}"
+                         rowsPerPageTemplate="5">
+                      <p:column headerText="ID" filterBy="#{vpd.idVenta}">
+                          <h:outputText value="#{vpd.idVenta}" />
+                </p:column>
+                
+                <p:column headerText="Fecha:">
+                    <h:outputText value="#{vpd.fecha}" />
+                </p:column>
+           
+                      <p:column headerText="Hora">
+                          <h:outputText value="#{vpd.horaVenta}" />
+                </p:column>
+           <p:column headerText="Monto">
+               <h:outputText value="#{vpd.montoTotal}" />
+                </p:column>
+           <p:column headerText="ID empleado">
+               <h:outputText value="#{vpd.empleado.idEmpleado}" />
+                </p:column>
+                      <p:column headerText="ID cliente">
+                          <h:outputText value="#{vpd.cliente.idCliente}" />
+                </p:column>
+                      
+                      
+                      <p:column headerText="Accion" exportable="false">
+                    <p:commandButton value="Editar" onclick="PF('dlgmodificar').show();" update=":formModificar" style="background-color: goldenrod; color: black">
+                        <f:setPropertyActionListener target="#{ventaBean.venta}" value="#{vpd}"/>
+                    </p:commandButton>                                        
+                </p:column>
+                                
+                <p:column headerText="Accion" exportable="false">
+                    <p:commandButton value="Eliminar" onclick="PF('dlgeliminar').show();" style="background-color: goldenrod; color: black">
+                        <f:setPropertyActionListener target="#{ventaBean.venta}" value="#{vpd}"/>
+                    </p:commandButton>                                        
+                </p:column>
+                      
+            </p:dataTable>
+                       
+               
+            </center>
+            <center>
+                <p:fieldset style="background-color: transparent; border-color: transparent">
+                    <h:panelGrid columns="2" cellpadding="5">
+                        <h:commandLink>
+                            <h:graphicImage url="/img/pdf.png" width="40"/>
+                            <p:dataExporter type="pdf" target="tabla" fileName="Lista de Venta" />
+                        </h:commandLink>
+
+                        <h:commandLink>
+                            <h:graphicImage url="/img/excel.png" width="35"/>
+                            <p:dataExporter type="xls" target="tabla" fileName="Lista de Venta"/>
+                        </h:commandLink>
+                    </h:panelGrid>
+                </p:fieldset>
+                <p:graphicImage value="/img/guchi.png" title="GUCHI" alt="image1 desc" height="100" width="200" />
+            </center>
+        
+            
+        </h:form>
+        </div>
+        <p:dialog id="dlg" header="Modificar Venta" showEffect="explode" hideEffect="bounce" widgetVar="dlgmodificar" modal="true" resizable="false" minWidth="200" >
+            <h:form id="formModificar">
+                <p:panelGrid columns="2">
+                   <p:outputLabel value="Fecha de la venta:"/>
+                     <p:calendar value="#{ventaBean.venta.fecha}"/>                    
+                    <p:outputLabel for="timeS" value="Hora de la venta:" />
+                    <p:calendar id="timeS" value="#{ventaBean.venta.horaVenta}" pattern="HH:mm" timeOnly="true"/>
+                    <p:outputLabel value="Monto total:"/>
+                    <p:inputText value="#{ventaBean.venta.montoTotal}"/>                                        
+                    <p:outputLabel value="Empleado"/>
+                    <p:selectOneMenu value="#{ventaBean.id_Empleado}">
+                        <f:selectItems value="#{empleadoBean.empleados}" var="fk2" itemLabel="#{fk2.nombreEmpleado}" itemValue="#{fk2.idEmpleado}" />
+                    </p:selectOneMenu>
+                    <p:outputLabel value="Cliente"/>
+                    <p:selectOneMenu value="#{ventaBean.id_Cliente}">
+                        <f:selectItems value="#{clienteBean.clientes}" var="fk3" itemLabel="#{fk3.nombre}" itemValue="#{fk3.idCliente}" />
+                    </p:selectOneMenu>                  
+                </p:panelGrid>
+                <p:commandButton actionListener="#{ventaBean.modificar()}" value="Modificar" update=":formTabla" onclick="PF('dlgmodificar').hide();"/>                
+            </h:form>
+        </p:dialog>
+        <p:dialog id="dlg2" header="Eliminar Venta" showEffect="explode" hideEffect="bounce" widgetVar="dlgeliminar" modal="true" resizable="false" minWidth="200" >
+            <h:form id="formEliminar">
+                <p:outputLabel value="¿Desea eliminar el registro?"/>
+                
+                <p:commandButton actionListener="#{ventaBean.eliminar()}" value="Si" update=":formTabla" onclick="PF('dlgeliminar').hide();"/>
+                <p:commandButton value="No" onclick="PF('dlg2').hide();"/>                                 
+            </h:form>
+        </p:dialog>
+
+    </h:body>
+</html>

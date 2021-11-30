@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">    
+    <h:head>
+        <title>GUCHI© | Producto</title>
+        <h:outputStylesheet library="css" name="index.css" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    </h:head>
+    <h:body>
+         <div class="fondoprod" >
+        <h:form id="formInsertar">
+            <center>
+                <p:graphicImage value="/img/guchiprod.png" title="Producto" alt="image1 desc" height="100" width="300" />
+                <p:panelGrid columns="2">
+                    <p:outputLabel value="Nombre del producto:"/>
+                    <p:inputText value="#{productoBean.producto.nombreProducto}" required="true" requiredMessage="Llenar todos los campos"/>
+                    <p:outputLabel value="Existencia:"/>
+                    <p:inputText value="#{productoBean.producto.existencia}" required="true" requiredMessage="Llenar todos los campos"/>
+                    <p:outputLabel value="Precio:"/>
+                    <p:inputText value="#{productoBean.producto.precio}" required="true" requiredMessage="Llenar todos los campos"/>                                                            
+                    
+                </p:panelGrid>
+                
+                <p:panelGrid columns="1">
+                    <p:growl id="growl" life="2000" />
+                    <p:tabMenu activeIndex="#{param.i}">
+                        <p:menuitem value="Insertar" action="#{productoBean.insertar()}" icon="pi pi-star" update=":formInsertar,:formTabla">
+                            <f:param name="i" value="0" />
+                        </p:menuitem>
+                        <p:menuitem value="Limpiar" outcome="Producto" icon="pi pi-search">
+                            <f:param name="i" value="1" />
+                        </p:menuitem>
+                        <p:menuitem value="Regresar" outcome="index" icon="pi pi-file">
+                            <f:param name="i" value="2" />
+                        </p:menuitem>                       
+                    </p:tabMenu>
+                    </p:panelGrid>
+                </center>
+                </h:form>
+                <h:form id="formTabla">
+                <center>
+                 <h3 style="margin-top:0">Producto</h3>                
+                 <p:dataTable id="tabla" var="prod" value="#{productoBean.productos}"
+                         emptyMessage="No hay registros"
+                         paginator="true" rows="10" paginatorPosition="top"
+                         paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {RowsPerPageDropdown}"
+                         rowsPerPageTemplate="5">
+                     <p:column headerText="ID" filterBy="#{prod.idProducto}">
+                          <h:outputText value="#{prod.idProducto}" />
+                </p:column>
+                
+                 <p:column headerText="Nombre">
+                     <h:outputText value="#{prod.nombreProducto}" />
+                </p:column>
+                      
+                <p:column headerText="Existencia">
+                    <h:outputText value="#{prod.existencia}" />
+                </p:column>
+                      <p:column headerText="Precio">
+                          <h:outputText value="#{prod.precio}" />
+                </p:column>
+                     
+                      
+                      <p:column headerText="Accion" exportable="false">
+                    <p:commandButton value="Editar" onclick="PF('dlgmodificar').show();" update=":formModificar" style="background-color: goldenrod; color: black">
+                        <f:setPropertyActionListener target="#{productoBean.producto}" value="#{prod}"/>
+                    </p:commandButton>                                        
+                </p:column>
+                                
+                <p:column headerText="Accion" exportable="false">
+                    <p:commandButton value="Eliminar" onclick="PF('dlgeliminar').show();" style="background-color: goldenrod; color: black">
+                        <f:setPropertyActionListener target="#{productoBean.producto}" value="#{prod}"/>
+                    </p:commandButton>                                        
+                </p:column>
+                      
+            </p:dataTable>
+         
+                
+            </center>
+            <center>
+                <p:fieldset style="background-color: transparent; border-color: transparent">
+                    <h:panelGrid columns="2" cellpadding="5">
+                        <h:commandLink>
+                            <h:graphicImage url="/img/pdf.png" width="40"/>
+                            <p:dataExporter type="pdf" target="tabla" fileName="Lista de Producto" />
+                        </h:commandLink>
+
+                        <h:commandLink>
+                            <h:graphicImage url="/img/excel.png" width="35"/>
+                            <p:dataExporter type="xls" target="tabla" fileName="Lista de Producto"/>
+                        </h:commandLink>
+                    </h:panelGrid>
+                </p:fieldset>
+                <p:graphicImage value="/img/guchi.png" title="GUCHI" alt="image1 desc" height="100" width="200" />
+            </center>
+        
+            
+        </h:form>
+             </div>
+        
+        <p:dialog id="dlg" header="Modificar Producto" showEffect="explode" hideEffect="bounce" widgetVar="dlgmodificar" modal="true" resizable="false" minWidth="200" >
+            <h:form id="formModificar">
+                <p:panelGrid columns="2">
+                    <p:outputLabel value="Nombre del producto:"/>
+                    <p:inputText value="#{productoBean.producto.nombreProducto}"/>
+                    <p:outputLabel value="Existencia:"/>
+                    <p:inputText value="#{productoBean.producto.existencia}"/>
+                    <p:outputLabel value="Precio:"/>
+                    <p:inputText value="#{productoBean.producto.precio}"/>            
+                </p:panelGrid>
+                <p:commandButton actionListener="#{productoBean.modificar()}" value="Modificar" update=":formTabla" onclick="PF('dlgmodificar').hide();"/>                
+            </h:form>
+        </p:dialog>
+        <p:dialog id="dlg2" header="Eliminar Producto" showEffect="explode" hideEffect="bounce" widgetVar="dlgeliminar" modal="true" resizable="false" minWidth="200" >
+            <h:form id="formEliminar"> 
+                <p:outputLabel value="¿Desea eliminar el registro?"/>
+                
+                <p:commandButton actionListener="#{productoBean.eliminar()}" value="Si" update=":formTabla" onclick="PF('dlgeliminar').hide();"/>
+                <p:commandButton value="No" onclick="PF('dlg2').hide();"/>
+                 
+                
+            </h:form>
+        </p:dialog>
+        
+        
+    </h:body>
+</html>

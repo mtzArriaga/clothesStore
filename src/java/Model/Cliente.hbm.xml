@@ -1,0 +1,33 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 25/10/2020 08:59:32 PM by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="Model.Cliente" table="cliente" catalog="guchi" optimistic-lock="version">
+        <id name="idCliente" type="java.lang.Integer">
+            <column name="idCliente" />
+            <generator class="identity" />
+        </id>
+        <property name="nombre" type="string">
+            <column name="nombre" length="45" />
+        </property>
+        <property name="telefono" type="java.lang.Long">
+            <column name="telefono" />
+        </property>
+        <property name="direccion" type="string">
+            <column name="direccion" length="45" />
+        </property>
+        <property name="email" type="string">
+            <column name="email" length="45" />
+        </property>
+        <property name="registro" type="time">
+            <column name="registro" length="8" />
+        </property>
+        <set name="ventas" table="venta" inverse="true" lazy="true" fetch="select">
+            <key >
+                <column name="idCliente" />
+            </key>
+            <one-to-many class="Model.Venta" />
+        </set>
+    </class>
+</hibernate-mapping>

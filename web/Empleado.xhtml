@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">    
+    <h:head>
+        <title>GUCHI© | Empleado</title>
+        <h:outputStylesheet library="css" name="index.css" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    </h:head>
+    <h:body>
+        <div class="fondoemp" >
+        <h:form id="formInsertar">
+            <center>
+                
+               <p:graphicImage value="/img/guchiemp.png" title="Empleado" alt="image1 desc" height="100" width="300" />
+                <p:panelGrid columns="2">
+                    <p:outputLabel value="Nombre:"/>
+                    <p:inputText value="#{empleadoBean.empleado.nombreEmpleado}" required="true" requiredMessage="Llenar todos los campos"/>
+                    <p:outputLabel value="Apellido paterno:"/>
+                    <p:inputText value="#{empleadoBean.empleado.apellidoPaterno}" required="true" requiredMessage="Llenar todos los campos"/>
+                    <p:outputLabel value="Apellido materno:"/>
+                    <p:inputText value="#{empleadoBean.empleado.apellidoMaterno}" required="true" requiredMessage="Llenar todos los campos"/>                                        
+                    <p:outputLabel value="Puesto:"/>
+                    <p:inputText value="#{empleadoBean.empleado.puesto}" required="true" requiredMessage="Llenar todos los campos"/>
+                    <p:outputLabel value="Salario:"/>
+                    <p:inputText value="#{empleadoBean.empleado.salario}" required="true" requiredMessage="Llenar todos los campos"/>
+                    <p:outputLabel for="timeE" value="Hora de entrada:" />
+                    <p:calendar id="timeE" value="#{empleadoBean.empleado.horaEntrada}" pattern="HH:mm" timeOnly="true" required="true" requiredMessage="Llenar todos los campos"/>
+                    <p:outputLabel for="timeS" value="Hora de salida:" />
+                    <p:calendar id="timeS" value="#{empleadoBean.empleado.horaSalida}" pattern="HH:mm" timeOnly="true" required="true" requiredMessage="Llenar todos los campos"/>
+                    <p:outputLabel value="Telefono:"/>
+                    <p:inputText value="#{empleadoBean.empleado.telefonoEmpleado}" required="true" requiredMessage="Llenar todos los campos"/>                                        
+                    <p:outputLabel value="Email:"/>
+                    <p:inputText value="#{empleadoBean.empleado.emailEmpleado}" required="true" requiredMessage="Llenar todos los campos"/>
+                    
+                </p:panelGrid>
+                
+                  <p:panelGrid columns="1">
+                      <p:growl id="growl" life="2000" />
+                    <p:tabMenu activeIndex="#{param.i}">
+                        <p:menuitem value="Insertar" action="#{empleadoBean.insertar()}" icon="pi pi-star" update=":formInsertar,:formTabla">
+                            <f:param name="i" value="0" />
+                        </p:menuitem>
+                        <p:menuitem value="Limpiar" outcome="Empleado" icon="pi pi-search">
+                            <f:param name="i" value="1" />
+                        </p:menuitem>
+                        <p:menuitem value="Regresar" outcome="index" icon="pi pi-file">
+                            <f:param name="i" value="2" />
+                        </p:menuitem>                       
+                    </p:tabMenu>
+                    </p:panelGrid>
+                </center>
+                </h:form>
+               
+                 
+                <h:form id="formTabla">
+                    <center>
+                <h3 style="margin-top:0">Empleado</h3>                
+                <p:dataTable id="tabla" var="emp" value="#{empleadoBean.empleados}"
+                         emptyMessage="No hay registros"
+                         paginator="true" rows="10" paginatorPosition="top"
+                         paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {RowsPerPageDropdown}"
+                         rowsPerPageTemplate="5">
+                    <p:column headerText="ID" filterBy="#{emp.idEmpleado}">
+                          <h:outputText value="#{emp.idEmpleado}" />
+                </p:column>
+                
+                 <p:column headerText="Nombre">
+                     <h:outputText value="#{emp.nombreEmpleado}" />
+                    </p:column>
+                    
+                    <p:column headerText="Apellido paterno">
+                        <h:outputText value="#{emp.apellidoPaterno}" />
+                    </p:column>
+                    
+                    <p:column headerText="Apellido materno">
+                        <h:outputText value="#{emp.apellidoMaterno}" />
+                    </p:column>
+
+                    <p:column headerText="Puesto">
+                        <h:outputText value="#{emp.puesto}" />
+                    </p:column>
+
+                    <p:column headerText="Salario">
+                        <h:outputText value="#{emp.salario}" />
+                    </p:column>
+                    
+                    <p:column headerText="Hora de entrada">
+                        <h:outputText value="#{emp.horaEntrada}" />
+                    </p:column>
+                    
+                    <p:column headerText="Hora de salida">
+                        <h:outputText value="#{emp.horaSalida}" />
+                    </p:column>
+                    
+                    <p:column headerText="Telefono">
+                        <h:outputText value="#{emp.telefonoEmpleado}" />
+                    </p:column>
+                    
+                    <p:column headerText="Email">
+                        <h:outputText value="#{emp.emailEmpleado}" />
+                    </p:column>
+                     
+                      
+                      <p:column headerText="Accion" exportable="false">
+                    <p:commandButton value="Editar" onclick="PF('dlgmodificar').show();" update=":formModificar" style="background-color: goldenrod; color: black" >
+                        <f:setPropertyActionListener target="#{empleadoBean.empleado}" value="#{emp}"/>
+                    </p:commandButton>                                        
+                </p:column>
+                                
+                <p:column headerText="Accion" exportable="false">
+                    <p:commandButton value="Eliminar" onclick="PF('dlgeliminar').show();" style="background-color: goldenrod; color: black">
+                        <f:setPropertyActionListener target="#{empleadoBean.empleado}" value="#{emp}"/>
+                    </p:commandButton>                                        
+                </p:column>
+                      
+            </p:dataTable>
+                
+                
+             
+        
+            </center>
+            <center>
+                <p:fieldset style="background-color: transparent; border-color: transparent">
+                    <h:panelGrid columns="2" cellpadding="5" >
+                        <h:commandLink>
+                            <h:graphicImage url="/img/pdf.png" width="40"/>
+                            <p:dataExporter type="pdf" target="tabla" fileName="Lista de Empleado" />
+                        </h:commandLink>
+
+                        <h:commandLink>
+                            <h:graphicImage url="/img/excel.png" width="35"/>
+                            <p:dataExporter type="xls" target="tabla" fileName="Lista de Empleado"/>
+                        </h:commandLink>
+                    </h:panelGrid>
+                </p:fieldset>
+                <p:graphicImage value="/img/guchi.png" title="GUCHI" alt="image1 desc" height="100" width="200" />
+            </center>
+        
+            
+        </h:form>
+        
+        </div>
+        <p:dialog id="dlg" header="Modificar Empleado" showEffect="explode" hideEffect="bounce" widgetVar="dlgmodificar" modal="true" resizable="false" minWidth="200" >
+            <h:form id="formModificar">
+                <p:panelGrid columns="2">
+                    <p:outputLabel value="Nombre:"/>
+                    <p:inputText value="#{empleadoBean.empleado.nombreEmpleado}"/>
+                    <p:outputLabel value="Apellido paterno:"/>
+                    <p:inputText value="#{empleadoBean.empleado.apellidoPaterno}"/>
+                    <p:outputLabel value="Apellido materno:"/>
+                    <p:inputText value="#{empleadoBean.empleado.apellidoMaterno}"/>                                        
+                    <p:outputLabel value="Puesto:"/>
+                    <p:inputText value="#{empleadoBean.empleado.puesto}"/>
+                    <p:outputLabel value="Salario:"/>
+                    <p:inputText value="#{empleadoBean.empleado.salario}"/>
+                    <p:outputLabel for="timeE" value="Hora de entrada:" />
+                    <p:calendar id="timeE" value="#{empleadoBean.empleado.horaEntrada}" pattern="HH:mm" timeOnly="true"/>
+                    <p:outputLabel for="timeS" value="Hora de salida:" />
+                    <p:calendar id="timeS" value="#{empleadoBean.empleado.horaSalida}" pattern="HH:mm" timeOnly="true"/>
+                    <p:outputLabel value="Telefono:"/>
+                    <p:inputText value="#{empleadoBean.empleado.telefonoEmpleado}"/>                                        
+                    <p:outputLabel value="Email:"/>
+                    <p:inputText value="#{empleadoBean.empleado.emailEmpleado}"/>          
+                </p:panelGrid>
+                <p:commandButton actionListener="#{empleadoBean.modificar()}" value="Modificar" update=":formTabla" onclick="PF('dlgmodificar').hide();"/>                
+            </h:form>
+        </p:dialog>
+        <p:dialog id="dlg2" header="Eliminar Empleado" showEffect="explode" hideEffect="bounce" widgetVar="dlgeliminar" modal="true" resizable="false" minWidth="200" >
+            <h:form id="formEliminar"> 
+                <p:outputLabel value="¿Desea eliminar el registro?"/>
+                
+                <p:commandButton actionListener="#{empleadoBean.eliminar()}" value="Si" update=":formTabla" onclick="PF('dlgeliminar').hide();"/>
+                <p:commandButton value="No" onclick="PF('dlg2').hide();"/>
+                 
+                
+            </h:form>
+        </p:dialog>
+        
+    </h:body>
+</html>

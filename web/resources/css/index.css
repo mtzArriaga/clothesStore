@@ -1,0 +1,80 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : 6/12/2020, 02:18:32 PM
+    Author     : PC7
+*/
+
+#principal{
+
+
+}
+
+.fondo {
+
+    height: 1440px;
+    
+    background-image: url(../img/pasarela.gif);
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-size: cover;
+
+
+
+}
+
+.fondocli {
+
+    height: 1440px;  
+    background-image: url(../img/guchifondocli.png);
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-size: cover; 
+}
+
+.fondoemp {
+
+    height: 1440px;
+    background-image: url(../img/guchifondo.png);
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-size: cover; 
+}
+
+.fondoprod {
+
+    height: 1440px;
+    background-image: url(../img/guchifondo.png);
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-size: cover; 
+}
+
+.fondoventa {
+
+    height: 1440px;
+    background-image: url(../img/guchifondo.png);
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-size: cover; 
+}
+
+.fondovenpro {
+
+    height: 1440px;
+    background-image: url(../img/guchifondo.png);
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-size: cover; 
+}
+
+.fondoinfo {
+    height: 200px;
+    background-color: #494245;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-size: cover; 
+}

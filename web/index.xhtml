@@ -1,0 +1,62 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+    <h:head>
+        <title>GUCHI© | Redefiniendo la moda</title>        
+        <h:outputStylesheet library="css" name="index.css" />
+    </h:head>
+    <h:body  >
+
+           <div class="fondo" >
+        <center>                 
+           
+            <h:form>
+            
+<p:graphicImage value="/img/guchi.png" title="GUCHI" alt="image1 desc" height="200" width="400" />
+                <p:imageSwitch effect="shuffle">
+                    <ui:repeat value="#{imagesView.images}" var="image">
+                        <p:graphicImage name="img/#{image}" />
+                    </ui:repeat>
+                </p:imageSwitch>
+
+            </h:form> 
+
+            <h:form>  
+  
+                <p:growl id="messages" showDetail="false"/>
+
+           
+
+
+                <p:menu style="background-color: transparent">
+                    <p:submenu label="Cliente" style="background-color: goldenrod">
+                        <p:menuitem value="Gestionar" outcome="Cliente"  update="messages" icon="pi pi-star" style="background-color: transparent; color: white"/>          
+                    </p:submenu>                                   
+                    <p:submenu label="Empleado" style="background-color: goldenrod">
+                        <p:menuitem value="Gestionar" outcome="Empleado"  update="messages" icon="pi pi-save" style="background-color: transparent; color: white" />          
+                    </p:submenu>                    
+                    <p:submenu label="Producto" style="background-color: goldenrod">
+                        <p:menuitem value="Gestionar" outcome="Producto"  update="messages" icon="pi pi-save" style="background-color: transparent; color: white"/>          
+                    </p:submenu>
+                    <p:submenu label="Venta" style="background-color: goldenrod">
+                        <p:menuitem value="Gestionar" outcome="Venta"  update="messages" icon="pi pi-save" style="background-color: transparent; color: white"/>          
+                    </p:submenu>
+                    <p:submenu label="Venta-Producto" style="background-color: goldenrod">
+                        <p:menuitem value="Gestionar" outcome="VentaProducto"  update="messages" icon="pi pi-save" style="background-color: transparent; color: white"/>          
+                    </p:submenu>    
+                  
+                </p:menu>
+            </h:form>
+
+ <p:graphicImage value="/img/guchieslogan.png" title="GUCHI" alt="image1 desc" height="50" width="600" />
+ <h5 style="color: white">©2020-2020 GUCHI. -Todos los derechos reservados. UAEM.  </h5>   
+        </center>
+               </div>
+       
+    </h:body>
+</html>
+
